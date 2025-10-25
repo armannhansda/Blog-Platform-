@@ -1,26 +1,52 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Custom Color Palette - Modern Blue Gray */
+  --color-primary: #D9EAFD;
+  /* Primary Light Blue */
+  --color-light-bg: #F8FAFC;
+  /* Very Light Background */
+  --color-secondary: #BCCCDC;
+  /* Secondary Blue-Gray */
+  --color-muted: #9AA6B2;
+  /* Muted Gray */
 
-@theme inline {
+  /* Background & Foreground */
+  --background: #F8FAFC;
+  /* Light background */
+  --foreground: #D9EAFD;
+  /* Primary light blue */
+  --card-bg: #FFFFFF;
+  /* White cards */
+  --card-border: #BCCCDC;
+  /* Secondary borders */
+  --input-bg: #FFFFFF;
+  /* White inputs */
+  --input-border: #BCCCDC;
+  /* Secondary input borders */
+  --text-primary: #1F3A51;
+  /* Dark blue-gray text */
+  --text-secondary: #5A6B78;
+  /* Medium gray text */
+  --text-muted: #9AA6B2;
+  /* Muted gray text */
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #F8FAFC 100%);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
