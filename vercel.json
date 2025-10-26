@@ -5,15 +5,15 @@
   "framework": "nextjs",
   "env": {
     "DATABASE_URL": {
-      "description": "PostgreSQL database URL from Neon",
+      "description": "postgresql://neondb_owner:npg_yXs4LQO0wSxv@ep-holy-scene-a1kveghi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
       "required": true
     },
     "JWT_SECRET": {
-      "description": "JWT secret key for token signing",
+      "description": "5e0e8cfbf1e1c6a3d85a5f7daa184ee9d4ba2c5a20663c1ea813be0b3b7ab720",
       "required": true
     },
     "CLOUDINARY_CLOUD_NAME": {
-      "description": "Cloudinary cloud name for image uploads",
+      "description": "dadafm6bs",
       "required": true
     },
     "CLOUDINARY_API_KEY": {
