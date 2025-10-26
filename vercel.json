@@ -4,14 +4,16 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "DATABASE_URL": "postgresql://neondb_owner:npg_yXs4LQO0wSxv@ep-holy-scene-a1kveghi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL from Neon",
+      "required": true
     },
     "JWT_SECRET": {
-      "description": "5e0e8cfbf1e1c6a3d85a5f7daa184ee9d4ba2c5a20663c1ea813be0b3b7ab720",
+      "description": "JWT secret key for token signing",
       "required": true
     },
     "CLOUDINARY_CLOUD_NAME": {
-      "description": "dadafm6bs",
+      "description": "Cloudinary cloud name",
       "required": true
     },
     "CLOUDINARY_API_KEY": {
@@ -25,7 +27,8 @@
     "NEXT_PUBLIC_API_URL": {
       "description": "Public API URL (set to your Vercel domain)",
       "required": false
-    },
+    }
+  },
   "builds": [
     {
       "src": "package.json",
