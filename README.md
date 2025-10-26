@@ -1,8 +1,8 @@
-# Blog Platform 🚀# Blog Platform 🚀# Blog Platform 🚀# Blog Platform 🚀
+# Blog Platform 
 
 A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!
 
-## ✨ Features## Table of Contents## Table of Contents## Table of Contents
+## ✨ Features## Table of Contents
 
 ### 🔐 Authentication- [Features Implemented](#features-implemented-)- [Features Implemented](#features-implemented-)- [Features](#features-)
 
