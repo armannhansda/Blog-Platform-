@@ -25,8 +25,7 @@
     "NEXT_PUBLIC_API_URL": {
       "description": "Public API URL (set to your Vercel domain)",
       "required": false
-    }
-  },
+    },
   "builds": [
     {
       "src": "package.json",
