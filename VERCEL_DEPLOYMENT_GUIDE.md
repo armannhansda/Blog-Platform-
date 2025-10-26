@@ -59,7 +59,7 @@ dist/
 Create `.env.production.local` (don't commit this):
 
 ```bash
-# Same as .env.local but for production
+# Same as .env.local but for productionInvalid request: `env.DATABASE_URL` should be string.
 DATABASE_URL=postgresql://neondb_owner:npg_yXs4LQO0wSxv@ep-holy-scene-a1kveghi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
 JWT_SECRET=your_secure_jwt_secret_min_32_chars
 TOKEN_EXPIRATION=1d

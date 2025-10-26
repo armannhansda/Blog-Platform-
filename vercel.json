@@ -4,30 +4,12 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "DATABASE_URL": {
-      "description": "PostgreSQL database URL from Neon",
-      "required": true
-    },
-    "JWT_SECRET": {
-      "description": "JWT secret key for token signing",
-      "required": true
-    },
-    "CLOUDINARY_CLOUD_NAME": {
-      "description": "Cloudinary cloud name",
-      "required": true
-    },
-    "CLOUDINARY_API_KEY": {
-      "description": "Cloudinary API key",
-      "required": true
-    },
-    "CLOUDINARY_API_SECRET": {
-      "description": "Cloudinary API secret",
-      "required": true
-    },
-    "NEXT_PUBLIC_API_URL": {
-      "description": "Public API URL (set to your Vercel domain)",
-      "required": false
-    }
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret",
+    "CLOUDINARY_CLOUD_NAME": "@cloudinary_cloud_name",
+    "CLOUDINARY_API_KEY": "@cloudinary_api_key",
+    "CLOUDINARY_API_SECRET": "@cloudinary_api_secret",
+    "NEXT_PUBLIC_API_URL": "@next_public_api_url"
   },
   "builds": [
     {
