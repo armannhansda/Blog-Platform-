@@ -4,17 +4,19 @@ import { users, posts, categories, postsToCategories } from './schema';
 async function seed() {
   try {
     console.log('🌱 Seeding database...');
+    
+    const dbInstance = db();
 
     // Clear existing data
-    await db.delete(postsToCategories);
-    await db.delete(posts);
-    await db.delete(categories);
-    await db.delete(users);
+    await dbInstance.delete(postsToCategories);
+    await dbInstance.delete(posts);
+    await dbInstance.delete(categories);
+    await dbInstance.delete(users);
 
     console.log('✅ Existing data cleared');
 
     // Insert users
-    const [theodore] = await db
+    const [theodore] = await dbInstance
       .insert(users)
       .values({
         name: 'Theodore Reginald',
@@ -22,7 +24,7 @@ async function seed() {
       })
       .returning();
 
-    const [elena] = await db
+    const [elena] = await dbInstance
       .insert(users)
       .values({
         name: 'Elena Martinez',
@@ -30,7 +32,7 @@ async function seed() {
       })
       .returning();
 
-    const [james] = await db
+    const [james] = await dbInstance
       .insert(users)
       .values({
         name: 'James Chen',
@@ -38,7 +40,7 @@ async function seed() {
       })
       .returning();
 
-    const [sarah] = await db
+    const [sarah] = await dbInstance
       .insert(users)
       .values({
         name: 'Sarah Johnson',
@@ -46,7 +48,7 @@ async function seed() {
       })
       .returning();
 
-    const [marco] = await db
+    const [marco] = await dbInstance
       .insert(users)
       .values({
         name: 'Marco Rossi',
@@ -54,7 +56,7 @@ async function seed() {
       })
       .returning();
 
-    const [priya] = await db
+    const [priya] = await dbInstance
       .insert(users)
       .values({
         name: 'Priya Sharma',
@@ -65,7 +67,7 @@ async function seed() {
     console.log('✅ Authors created');
 
     // Insert categories
-    const [destination] = await db
+    const [destination] = await dbInstance
       .insert(categories)
       .values({
         name: 'Destination',
@@ -74,7 +76,7 @@ async function seed() {
       })
       .returning();
 
-    const [culinary] = await db
+    const [culinary] = await dbInstance
       .insert(categories)
       .values({
         name: 'Culinary',
@@ -83,7 +85,7 @@ async function seed() {
       })
       .returning();
 
-    const [lifestyle] = await db
+    const [lifestyle] = await dbInstance
       .insert(categories)
       .values({
         name: 'Lifestyle',
@@ -92,7 +94,7 @@ async function seed() {
       })
       .returning();
 
-    const [tips] = await db
+    const [tips] = await dbInstance
       .insert(categories)
       .values({
         name: 'Tips & Hacks',
@@ -104,7 +106,7 @@ async function seed() {
     console.log('✅ Categories created');
 
     // Insert posts
-    const [post1] = await db
+    const [post1] = await dbInstance
       .insert(posts)
       .values({
         title: 'Exploring the Wonders of Hiking',
@@ -117,7 +119,7 @@ async function seed() {
       })
       .returning();
 
-    const [post2] = await db
+    const [post2] = await dbInstance
       .insert(posts)
       .values({
         title: 'Taste of the Alps: A Culinary Journey',
@@ -130,7 +132,7 @@ async function seed() {
       })
       .returning();
 
-    const [post3] = await db
+    const [post3] = await dbInstance
       .insert(posts)
       .values({
         title: 'Digital Nomad Guide to Southeast Asia',
@@ -143,7 +145,7 @@ async function seed() {
       })
       .returning();
 
-    const [post4] = await db
+    const [post4] = await dbInstance
       .insert(posts)
       .values({
         title: 'Budget Travel Hacks for 2024',
@@ -156,7 +158,7 @@ async function seed() {
       })
       .returning();
 
-    const [post5] = await db
+    const [post5] = await dbInstance
       .insert(posts)
       .values({
         title: 'Hidden Beaches of the Mediterranean',
@@ -169,7 +171,7 @@ async function seed() {
       })
       .returning();
 
-    const [post6] = await db
+    const [post6] = await dbInstance
       .insert(posts)
       .values({
         title: 'Wellness Retreats: Finding Your Zen',
@@ -185,7 +187,7 @@ async function seed() {
     console.log('✅ Posts created');
 
     // Create post to category relationships
-    await db.insert(postsToCategories).values([
+    await dbInstance.insert(postsToCategories).values([
       { postId: post1.id, categoryId: destination.id },
       { postId: post2.id, categoryId: culinary.id },
       { postId: post3.id, categoryId: lifestyle.id },

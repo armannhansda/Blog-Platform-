@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db as getDb } from "@/lib/db";
 import { verifyToken } from "@/lib/auth-utils";
 import { type NextRequest } from "next/server";
 
@@ -21,9 +21,11 @@ export type CreateContextOptions = {
  * Creates context for tRPC procedures with optional user authentication
  */
 export async function createContext({ headers }: CreateContextOptions) {
-  // Default context without user
+  // Default context without user - create a getter for db to defer initialization
   const baseContext = {
-    db,
+    get db() {
+      return getDb();
+    },
     headers,
   };
   

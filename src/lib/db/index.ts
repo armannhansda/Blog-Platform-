@@ -3,13 +3,14 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error("DATABASE_URL is not set. Please configure the environment variable.");
-}
+// Only read DATABASE_URL when the function is actually called, not at module load time
+const getConnectionString = () => process.env.DATABASE_URL;
 
 const createClient = () => {
+  const connectionString = getConnectionString();
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set. Please configure the environment variable.");
+  }
   // For Neon pooler endpoint, use prepare: false
   // This disables prepared statements but ensures compatibility
   return postgres(connectionString, {
@@ -28,12 +29,26 @@ declare global {
   var __sql__: ReturnType<typeof postgres> | undefined;
 }
 
-const sql = globalThis.__sql__ ?? createClient();
-const db: DrizzleDb = globalThis.__db__ ?? drizzle(sql, { schema });
+let sqlInstance: ReturnType<typeof postgres> | undefined;
+let dbInstance: DrizzleDb | undefined;
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.__sql__ = sql;
-  globalThis.__db__ = db;
-}
+export const db = (): DrizzleDb => {
+  if (dbInstance) return dbInstance;
+  
+  if (!sqlInstance) {
+    sqlInstance = createClient();
+    globalThis.__sql__ = sqlInstance;
+  }
+  
+  dbInstance = drizzle(sqlInstance, { schema });
+  globalThis.__db__ = dbInstance;
+  
+  return dbInstance;
+};
 
-export { db, sql };
+export const sql = (): ReturnType<typeof postgres> => {
+  if (sqlInstance) return sqlInstance;
+  sqlInstance = createClient();
+  globalThis.__sql__ = sqlInstance;
+  return sqlInstance;
+};

@@ -1,10 +1,3 @@
-#!/usr/bin/env node
-
-/**
- * Database Migration Script
- * Executes SQL migrations without requiring interactive input
- */
-
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './index.js';
@@ -24,6 +17,8 @@ async function migrate() {
       process.exit(0);
     }
 
+    const sqlClient = sql();
+
     for (const file of migrationFiles) {
       const migrationPath = path.join(migrationsDir, file);
       const migrationSql = fs.readFileSync(migrationPath, 'utf-8');
@@ -38,7 +33,7 @@ async function migrate() {
 
       for (const statement of statements) {
         try {
-          await sql.unsafe(statement);
+          await sqlClient.unsafe(statement);
           console.log(`   ✓ Statement executed`);
         } catch (error: any) {
           // Ignore errors if table already exists
