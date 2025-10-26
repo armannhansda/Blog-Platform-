@@ -75,8 +75,6 @@ export default function Navbar({
 
   // Handle scroll event to add blur effect and close dropdown
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
 
