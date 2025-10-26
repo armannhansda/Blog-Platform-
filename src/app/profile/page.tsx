@@ -22,32 +22,43 @@ import {
   Download,
   Bell,
 } from "lucide-react";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
+import type { RouterOutputs } from "@/lib/trpc/types";
 import type { BlogCardProps } from "@/components/BlogCard";
 
 interface UserPost {
   id: number;
   title: string;
   slug: string;
-  excerpt: string;
+  excerpt: string | null;
   content: string;
-  coverImage?: string;
-  createdAt: string;
-  author: {
+  coverImage?: string | null;
+  createdAt: string | Date | null;
+  author?: {
     name: string;
     email: string;
-  };
+  } | null;
   categories: Array<{
-    category: {
-      id: number;
-      name: string;
-    };
+    description?: string | null;
+    id: number;
+    slug: string;
+    name: string;
   }>;
+}
+
+interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  profileImage?: string;
+  bio?: string;
+  createdAt?: string;
 }
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const [userPosts, setUserPosts] = useState<UserPost[]>([]);
@@ -57,11 +68,11 @@ export default function ProfilePage() {
 
   // tRPC hooks
   const [authorId, setAuthorId] = useState<number | null>(null);
-  const postsQuery = trpc.posts.listByAuthor.useQuery(
+  const postsQuery = api.posts.listByAuthor.useQuery(
     { authorId: authorId! },
     { enabled: authorId !== null }
   );
-  const deletePostMutation = trpc.posts.delete.useMutation();
+  const deletePostMutation = api.posts.delete.useMutation();
 
   useEffect(() => {
     // Check if user is logged in
@@ -94,7 +105,8 @@ export default function ProfilePage() {
     if (postsQuery.data && user) {
       setPostsLoading(true);
       // The query already filters by authorId, so we can directly use it
-      setUserPosts(postsQuery.data as any);
+      type PostData = RouterOutputs["posts"]["listByAuthor"][number];
+      setUserPosts(postsQuery.data as PostData[]);
       setPostsLoading(false);
     }
   }, [postsQuery.data, user]);
@@ -296,10 +308,12 @@ export default function ProfilePage() {
               <Calendar className="w-4 h-4" style={{ color: "#3B82F6" }} />
               <span style={{ color: "#374151" }}>
                 Joined{" "}
-                {new Date(user.createdAt).toLocaleDateString("en-US", {
-                  month: "short",
-                  year: "numeric",
-                })}
+                {user.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "Recently"}
               </span>
             </div>
           </div>
@@ -584,9 +598,7 @@ export default function ProfilePage() {
                                       color: "#3B82F6",
                                     }}
                                   >
-                                    {(post.categories[0] as any)?.name ||
-                                      (post.categories[0] as any)?.category
-                                        ?.name}
+                                    {post.categories[0]?.name}
                                   </span>
                                 )}
                             </div>
@@ -611,14 +623,16 @@ export default function ProfilePage() {
                               className="text-xs font-medium"
                               style={{ color: "#9CA3AF" }}
                             >
-                              {new Date(post.createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                }
-                              )}
+                              {post.createdAt
+                                ? new Date(post.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    }
+                                  )
+                                : "Recently"}
                             </span>
                             <div
                               className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition"

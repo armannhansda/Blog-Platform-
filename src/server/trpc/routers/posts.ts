@@ -245,7 +245,7 @@ export const postsRouter = createTRPCRouter({
         console.log("[Posts.create] Post inserted with id:", created.id);
 
         // Convert categoryIds to numbers if needed
-        const categoryIds = input.categoryIds?.map((id: any) => typeof id === 'string' ? Number(id) : id);
+        const categoryIds = input.categoryIds?.map((id: string | number) => typeof id === 'string' ? Number(id) : id);
         await setPostCategories(ctx, created.id, categoryIds);
         const post = await fetchPost(ctx, eq(posts.id, created.id));
 
@@ -302,7 +302,7 @@ export const postsRouter = createTRPCRouter({
           .where(eq(posts.id, postId));
 
         // Convert categoryIds to numbers if needed
-        const categoryIds = input.categoryIds?.map((id: any) => typeof id === 'string' ? Number(id) : id);
+        const categoryIds = input.categoryIds?.map((id: string | number) => typeof id === 'string' ? Number(id) : id);
         await setPostCategories(ctx, postId, categoryIds);
         const post = await fetchPost(ctx, eq(posts.id, postId));
 
@@ -354,7 +354,7 @@ export const postsRouter = createTRPCRouter({
     }
 
     // Convert categoryIds to numbers if needed
-    const categoryIds = input.categoryIds.map((id: any) => typeof id === 'string' ? Number(id) : id);
+    const categoryIds = input.categoryIds.map((id: string | number) => typeof id === 'string' ? Number(id) : id);
     await setPostCategories(ctx, postId, categoryIds);
     const updated = await fetchPost(ctx, eq(posts.id, postId));
 

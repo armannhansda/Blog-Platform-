@@ -1,11 +1,11 @@
-import { sign, verify } from "jsonwebtoken";
+import { sign, verify, type SignOptions, type Secret, type SignCallback } from "jsonwebtoken";
 import { type UserInfo } from "@/server/trpc/context";
 import { errorTypes, handleError } from "@/lib/errors";
 
 // Secret should be in environment variables in production
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-jwt-token-that-should-be-in-env";
+const JWT_SECRET: Secret = process.env.JWT_SECRET || "super-secret-jwt-token-that-should-be-in-env";
 
-// Token expiration time (1 day by default)
+// Token expiration time (1 day by default) - must be string or number
 const TOKEN_EXPIRATION = process.env.TOKEN_EXPIRATION || "1d";
 
 /**
@@ -36,9 +36,14 @@ export function generateToken(user: Omit<UserInfo, "permissions" | "roles"> & {
     roles: user.roles || [],
   };
 
-  return sign(payload, JWT_SECRET, {
-    expiresIn: TOKEN_EXPIRATION,
-  });
+  // Create options object with proper typing
+  const expiresInValue = TOKEN_EXPIRATION;
+  
+  return sign(
+    payload, 
+    JWT_SECRET, 
+    { expiresIn: expiresInValue } as SignOptions & { expiresIn: string | number }
+  );
 }
 
 /**

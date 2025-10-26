@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import { ArrowLeft, Loader, Upload, X, Check, Search } from "lucide-react";
 import Link from "next/link";
 import MDEditor from "@uiw/react-md-editor";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
+import type { RouterOutputs } from "@/lib/trpc/types";
 
 interface Author {
   id: number;
@@ -50,13 +51,10 @@ export default function EditPostPage() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // tRPC hooks
-  const postQuery = trpc.posts.getBySlug.useQuery(
-    { slug },
-    { enabled: !!slug }
-  );
-  const categoriesQuery = trpc.categories.list.useQuery();
-  const updatePostMutation = trpc.posts.update.useMutation();
-  const createAuthorMutation = trpc.users.createOrGetAuthor.useMutation();
+  const postQuery = api.posts.getBySlug.useQuery({ slug }, { enabled: !!slug });
+  const categoriesQuery = api.categories.list.useQuery();
+  const updatePostMutation = api.posts.update.useMutation();
+  const createAuthorMutation = api.users.createOrGetAuthor.useMutation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,18 +73,20 @@ export default function EditPostPage() {
   // Load post data from tRPC query
   useEffect(() => {
     if (postQuery.data) {
+      type Post = RouterOutputs["posts"]["getBySlug"];
+      const post = postQuery.data as Post;
       setFormData({
-        title: postQuery.data.title,
-        slug: postQuery.data.slug,
-        excerpt: postQuery.data.excerpt || "",
-        content: postQuery.data.content,
-        coverImage: postQuery.data.coverImage || "",
-        authorName: postQuery.data.author?.name || "",
-        categoryIds: postQuery.data.categories?.map((cat: any) => cat.id) || [],
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt || "",
+        content: post.content,
+        coverImage: post.coverImage || "",
+        authorName: post.author?.name || "",
+        categoryIds: post.categories?.map((cat) => cat.id) || [],
       });
 
-      if (postQuery.data.coverImage) {
-        setImagePreview(postQuery.data.coverImage);
+      if (post.coverImage) {
+        setImagePreview(post.coverImage);
       }
       setPageLoading(false);
     }

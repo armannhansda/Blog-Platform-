@@ -19,6 +19,13 @@ export interface NavLink {
   href: string;
 }
 
+export interface UserInfo {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
 export interface NavbarProps {
   logo?: string;
   logoHref?: string;
@@ -58,7 +65,7 @@ export default function Navbar({
   const [internalSearchQuery, setInternalSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserInfo | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -165,7 +172,7 @@ export default function Navbar({
                       backgroundColor: "#F8FAFC",
                       color: "#1F3A51",
                       "--tw-ring-color": "#D9EAFD",
-                    } as any
+                    } as React.CSSProperties
                   }
                 />
                 <Search
@@ -393,7 +400,7 @@ export default function Navbar({
                         backgroundColor: "#F8FAFC",
                         color: "#1F3A51",
                         "--tw-ring-color": "#D9EAFD",
-                      } as any
+                      } as React.CSSProperties
                     }
                   />
                   <Search

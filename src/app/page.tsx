@@ -5,7 +5,33 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import BlogGrid from "@/components/BlogGrid";
 import type { BlogCardProps } from "@/components/BlogCard";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
+import type { RouterOutputs } from "@/lib/trpc/types";
+
+type Post = RouterOutputs["posts"]["list"][number];
+
+const mapPostToCard = (post: Post): BlogCardProps => {
+  const createdAtDate = post.createdAt ? new Date(post.createdAt) : null;
+  const wordCount = post.content ? post.content.split(" ").length : 0;
+
+  return {
+    id: post.id.toString(),
+    title: post.title,
+    excerpt: post.excerpt ?? "",
+    image: post.coverImage ?? "",
+    author: post.author?.name ?? "Anonymous",
+    category: post.categories?.[0]?.name ?? "Uncategorized",
+    date: createdAtDate
+      ? createdAtDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "",
+    readTime: Math.max(1, Math.ceil(wordCount / 200)).toString(),
+    href: `/blog/${post.slug}`,
+  } satisfies BlogCardProps;
+};
 
 export default function Home() {
   const [filteredPosts, setFilteredPosts] = useState<BlogCardProps[]>([]);
@@ -14,35 +40,12 @@ export default function Home() {
   const postsPerPage = 6;
 
   // Fetch all posts using tRPC
-  const postsQuery = trpc.posts.list.useQuery();
+  const postsQuery = api.posts.list.useQuery();
 
   // Transform tRPC posts to BlogCardProps format
   useEffect(() => {
     if (postsQuery.data) {
-      const transformedPosts: BlogCardProps[] = postsQuery.data.map(
-        (post: any) =>
-          ({
-            id: post.id.toString(),
-            title: post.title,
-            excerpt: post.excerpt || "",
-            image: post.coverImage || "",
-            author: post.author?.name || "Anonymous",
-            category:
-              post.categories?.[0]?.name ||
-              post.categories?.[0]?.category?.name ||
-              "Uncategorized",
-            slug: post.slug,
-            date: new Date(post.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
-            readTime: Math.ceil(
-              (post.content?.split(" ").length || 0) / 200
-            ).toString(),
-            href: `/blog/${post.slug}`,
-          } as BlogCardProps)
-      );
+      const transformedPosts = postsQuery.data.map(mapPostToCard);
 
       // Filter posts based on search query
       const query = searchQuery.toLowerCase();
@@ -85,30 +88,7 @@ export default function Home() {
 
   // Transform posts for HeroSection
   const allBlogPosts = postsQuery.data
-    ? postsQuery.data.map(
-        (post: any) =>
-          ({
-            id: post.id.toString(),
-            title: post.title,
-            excerpt: post.excerpt || "",
-            image: post.coverImage || "",
-            author: post.author?.name || "Anonymous",
-            category:
-              post.categories?.[0]?.name ||
-              post.categories?.[0]?.category?.name ||
-              "Uncategorized",
-            slug: post.slug,
-            date: new Date(post.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
-            readTime: Math.ceil(
-              (post.content?.split(" ").length || 0) / 200
-            ).toString(),
-            href: `/blog/${post.slug}`,
-          } as BlogCardProps)
-      )
+    ? postsQuery.data.map(mapPostToCard)
     : [];
 
   return (

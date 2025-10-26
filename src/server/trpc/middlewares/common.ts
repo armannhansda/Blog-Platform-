@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { middleware } from "../trpc";
 import { errorTypes } from "@/lib/errors";
-import { isAuthenticated, type UserInfo } from "../context";
+import { isAuthenticated, type UserInfo, type Context } from "../context";
 import { hasPermission, hasRole } from "@/lib/auth-utils";
 
 // Store for rate limiting
@@ -211,7 +211,7 @@ export const roleMiddleware = (requiredRole: string) =>
  * Owner middleware to check if the user owns a resource
  */
 export const ownerMiddleware = <T extends { userId?: string }>(
-  getResource: (input: any, ctx: any) => Promise<T | null>
+  getResource: (input: Record<string, unknown>, ctx: Context) => Promise<T | null>
 ) =>
   middleware(async ({ ctx, next, input }) => {
     // First check if user is authenticated
@@ -226,7 +226,7 @@ export const ownerMiddleware = <T extends { userId?: string }>(
     }
 
     // Get resource and check ownership
-    const resource = await getResource(input, ctx);
+    const resource = await getResource(input as Record<string, unknown>, ctx);
     
     if (!resource) {
       throw new TRPCError({

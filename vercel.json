@@ -1,0 +1,49 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL from Neon",
+      "required": true
+    },
+    "JWT_SECRET": {
+      "description": "JWT secret key for token signing",
+      "required": true
+    },
+    "CLOUDINARY_CLOUD_NAME": {
+      "description": "Cloudinary cloud name for image uploads",
+      "required": true
+    },
+    "CLOUDINARY_API_KEY": {
+      "description": "Cloudinary API key",
+      "required": true
+    },
+    "CLOUDINARY_API_SECRET": {
+      "description": "Cloudinary API secret",
+      "required": true
+    },
+    "NEXT_PUBLIC_API_URL": {
+      "description": "Public API URL (set to your Vercel domain)",
+      "required": false
+    }
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "regions": ["sin1"],
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 60
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { Loader } from "lucide-react";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function SignupPage() {
     password: "",
   });
 
-  const signupMutation = trpc.auth.signup.useMutation();
+  const signupMutation = api.auth.signup.useMutation();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,11 +43,18 @@ export default function SignupPage() {
         return;
       }
 
+      console.log("[SIGNUP] Submitting form:", {
+        name: formData.name,
+        email: formData.email,
+      });
+
       const result = await signupMutation.mutateAsync({
         name: formData.name,
         email: formData.email,
         password: formData.password,
       });
+
+      console.log("[SIGNUP] Success! Result:", result);
 
       // Store user data and token in localStorage
       localStorage.setItem("user", JSON.stringify(result.user));
@@ -57,11 +64,14 @@ export default function SignupPage() {
       setSuccess(true);
       setFormData({ name: "", email: "", password: "" });
 
+      console.log("[SIGNUP] Redirecting to home...");
+
       // Redirect to home after 1.5 seconds
       setTimeout(() => {
         router.push("/");
       }, 1500);
     } catch (err) {
+      console.error("[SIGNUP] Error:", err);
       setError(err instanceof Error ? err.message : "Failed to create account");
     } finally {
       setIsLoading(false);

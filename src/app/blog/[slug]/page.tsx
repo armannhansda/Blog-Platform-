@@ -13,78 +13,57 @@ import {
   Share2,
   Loader,
 } from "lucide-react";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
+import type { RouterOutputs } from "@/lib/trpc/types";
 
-interface PostDetail {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  excerpt: string;
-  published: boolean;
-  coverImage?: string;
-  authorId?: number;
-  author?: {
-    id: number;
-    name: string;
-    email: string;
-    profileImage?: string;
-  } | null;
-  categories?: {
-    id?: number;
-    category?: {
-      id: number;
-      name: string;
-      slug: string;
-    };
-    name?: string;
-  }[];
-  createdAt: string;
-  updatedAt: string;
-}
+type PostDetail = RouterOutputs["posts"]["getBySlug"];
+type PostSummary = RouterOutputs["posts"]["list"][number];
 
 export default function BlogDetailPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
 
-  const [relatedPosts, setRelatedPosts] = useState<PostDetail[]>([]);
+  const [relatedPosts, setRelatedPosts] = useState<PostSummary[]>([]);
   const [isRelated, setIsRelated] = useState(true);
 
   // Fetch post using tRPC
-  const postQuery = trpc.posts.getBySlug.useQuery(
-    { slug },
-    { enabled: !!slug }
-  );
+  const postQuery = api.posts.getBySlug.useQuery({ slug }, { enabled: !!slug });
 
   // Fetch all posts for related posts
-  const allPostsQuery = trpc.posts.list.useQuery();
+  const allPostsQuery = api.posts.list.useQuery();
 
   // Find related posts
   useEffect(() => {
     if (postQuery.data && allPostsQuery.data) {
       const post = postQuery.data;
-      const allPosts = allPostsQuery.data as any[];
+      const allPosts = allPostsQuery.data;
+
+      const currentCategoryIds = (post.categories ?? [])
+        .map((category) => category?.id)
+        .filter((id): id is number => typeof id === "number");
 
       // Filter related posts by category and exclude current post
       const related = allPosts
-        .filter((p: any) => p.slug !== slug)
-        .filter((p: any) => {
-          // Check if post shares any category
-          const currentCategories =
-            post.categories?.map((c: any) => c.id) || [];
-          const postCategories = p.categories?.map((c: any) => c.id) || [];
-          return currentCategories.some((cat: number) =>
-            postCategories.includes(cat)
+        .filter((p) => p.slug !== slug)
+        .filter((p) => {
+          const postCategoryIds = (p.categories ?? [])
+            .map((category) => category?.id)
+            .filter((id): id is number => typeof id === "number");
+
+          if (!currentCategoryIds.length || !postCategoryIds.length) {
+            return false;
+          }
+
+          return currentCategoryIds.some((catId) =>
+            postCategoryIds.includes(catId)
           );
         })
         .slice(0, 3);
 
       // If no related posts found, show any 3 other posts
       if (related.length === 0) {
-        const anyPosts = allPosts
-          .filter((p: any) => p.slug !== slug)
-          .slice(0, 3);
+        const anyPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 3);
         setRelatedPosts(anyPosts);
         setIsRelated(false);
       } else {
@@ -154,14 +133,13 @@ export default function BlogDetailPage() {
 
   const post = postQuery.data;
   const readTime = Math.ceil((post.content.split(" ").length || 0) / 200);
-  const publishDate = new Date(post.createdAt || new Date()).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
+  const publishDate = post.createdAt
+    ? new Date(post.createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
 
   return (
     <main className="min-h-screen" style={{ backgroundColor: "#FFFFFF" }}>
@@ -174,7 +152,7 @@ export default function BlogDetailPage() {
             {/* Categories */}
             {post.categories && post.categories.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
-                {post.categories.map((pc: any) => (
+                {post.categories.map((pc) => (
                   <Link
                     key={pc.id}
                     href={`/categories?slug=${pc.slug}`}
@@ -362,9 +340,7 @@ export default function BlogDetailPage() {
                             className="text-xs font-semibold mb-2"
                             style={{ color: "#3B82F6" }}
                           >
-                            {(relatedPost.categories[0] as any)?.name ||
-                              (relatedPost.categories[0] as any)?.category
-                                ?.name}
+                            {relatedPost.categories[0]?.name ?? "Uncategorized"}
                           </div>
                         )}
 

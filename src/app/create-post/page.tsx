@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Loader, Upload, X, Check, Search, ChevronDown } from "lucide-react";
 import MDEditor from "@uiw/react-md-editor";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
 
 interface Category {
   id: number;
@@ -40,9 +40,9 @@ export default function CreatePostPage() {
   const totalSteps = 3;
 
   // tRPC hooks
-  const categoriesQuery = trpc.categories.list.useQuery();
-  const createPostMutation = trpc.posts.create.useMutation();
-  const createAuthorMutation = trpc.users.createOrGetAuthor.useMutation();
+  const categoriesQuery = api.categories.list.useQuery();
+  const createPostMutation = api.posts.create.useMutation();
+  const createAuthorMutation = api.users.createOrGetAuthor.useMutation();
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -355,16 +355,21 @@ export default function CreatePostPage() {
 
         // Try to extract validation errors if available
         if ("data" in err && err.data && typeof err.data === "object") {
-          const data = err.data as any;
+          const data = err.data as Record<string, unknown>;
 
           // Log the full error object for debugging
           console.error("Full error data:", data);
 
           // Check if validationErrors exist in the cause
           if (data.cause && typeof data.cause === "object") {
-            const cause = data.cause as any;
-            if (cause.details && cause.details.validationErrors) {
-              const validationErrors = cause.details.validationErrors as Array<{
+            const cause = data.cause as Record<string, unknown>;
+            if (
+              cause.details &&
+              typeof cause.details === "object" &&
+              "validationErrors" in cause.details
+            ) {
+              const validationErrors = (cause.details as any)
+                .validationErrors as Array<{
                 field: string;
                 message: string;
               }>;

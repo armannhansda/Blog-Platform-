@@ -125,7 +125,7 @@ export const usersRouter = createTRPCRouter({
         }
 
         // Build update object with only provided fields
-        const updateData: any = {
+        const updateData: Record<string, unknown> = {
           updatedAt: new Date(),
         };
 

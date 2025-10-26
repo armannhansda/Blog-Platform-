@@ -10,18 +10,21 @@ if (!connectionString) {
 }
 
 const createClient = () => {
+  // For Neon pooler endpoint, use prepare: false
+  // This disables prepared statements but ensures compatibility
   return postgres(connectionString, {
     prepare: false,
     max: 10,
+    idle_timeout: 20,
+    connect_timeout: 10,
+    ssl: 'require',
   });
 };
 
 type DrizzleDb = PostgresJsDatabase<typeof schema>;
 
 declare global {
-  // eslint-disable-next-line no-var
   var __db__: DrizzleDb | undefined;
-  // eslint-disable-next-line no-var
   var __sql__: ReturnType<typeof postgres> | undefined;
 }
 

@@ -8,6 +8,7 @@ import { generateToken } from "@/lib/auth-utils";
 import type { Context } from "../context";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { validatedProcedure } from "../middlewares/validation";
+import type { InferSelectModel } from "drizzle-orm";
 
 const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -35,12 +36,14 @@ export type UserResponse = {
   role: string;
 };
 
-async function getUserResponse(user: any): Promise<UserResponse> {
+type User = InferSelectModel<typeof users>;
+
+async function getUserResponse(user: User): Promise<UserResponse> {
   return {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.role,
+    role: user.role || "author",
   };
 }
 
@@ -49,11 +52,15 @@ export const authRouter = createTRPCRouter({
     try {
       const { name, email, password } = input;
 
+      console.log("[AUTH] Signup attempt for email:", email);
+
       // Check if user already exists
       const existingUser = await ctx.db
         .select()
         .from(users)
         .where(eq(users.email, email));
+
+      console.log("[AUTH] Existing user check result:", existingUser?.length || 0);
 
       if (existingUser && existingUser.length > 0) {
         throw new TRPCError({
@@ -64,8 +71,10 @@ export const authRouter = createTRPCRouter({
 
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
+      console.log("[AUTH] Password hashed successfully");
 
       // Create new user
+      console.log("[AUTH] Inserting new user into database...");
       const newUser = await ctx.db
         .insert(users)
         .values({
@@ -77,6 +86,8 @@ export const authRouter = createTRPCRouter({
         })
         .returning();
 
+      console.log("[AUTH] User created successfully:", newUser[0]?.id);
+
       const userResponse = await getUserResponse(newUser[0]);
       const token = generateToken({
         id: String(newUser[0].id),
@@ -86,6 +97,8 @@ export const authRouter = createTRPCRouter({
         roles: ["author"],
       });
 
+      console.log("[AUTH] Signup completed successfully for user:", email);
+
       return {
         success: true,
         user: userResponse,
@@ -93,6 +106,7 @@ export const authRouter = createTRPCRouter({
         message: "Account created successfully",
       };
     } catch (error) {
+      console.error("[AUTH] Signup error:", error);
       if (error instanceof TRPCError) {
         throw error;
       }

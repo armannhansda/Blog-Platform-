@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { ArrowLeft, Loader, Upload, X } from "lucide-react";
 import Link from "next/link";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
 
 interface User {
   id: number;
@@ -42,7 +42,7 @@ export default function EditProfilePage() {
   );
 
   // tRPC mutation for updating user
-  const updateUserMutation = trpc.users.update.useMutation();
+  const updateUserMutation = api.users.update.useMutation();
 
   // Check authentication and load user data on mount
   useEffect(() => {
@@ -252,7 +252,7 @@ export default function EditProfilePage() {
         err instanceof Error
           ? err.message
           : err && typeof err === "object" && "message" in err
-          ? (err as any).message
+          ? ((err as Record<string, unknown>).message as string)
           : "Failed to update profile";
       setError(errorMessage);
     } finally {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { Loader, Mail, Lock, ArrowRight } from "lucide-react";
-import { trpc } from "@/lib/trpc/client";
+import { api } from "@/lib/trpc/react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function LoginPage() {
     password: "",
   });
 
-  const loginMutation = trpc.auth.login.useMutation();
+  const loginMutation = api.auth.login.useMutation();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
