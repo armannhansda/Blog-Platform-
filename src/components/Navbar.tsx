@@ -1,16 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Search,
-  Moon,
-  Sun,
-  PenTool,
-  Menu,
-  X,
-  User,
-  LogOut,
-} from "lucide-react";
+import { Search, Moon, Sun, Menu, X, User, LogOut, Github } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 
@@ -128,15 +119,18 @@ export default function Navbar({
     <header
       className="fixed top-0 left-0 right-0 z-50 will-change-transform"
       style={{
+        // Solid background initially, animated on scroll for all screen sizes
         backgroundColor: isScrolled
-          ? "rgba(255, 255, 255, 0.7)"
-          : "rgba(255, 255, 255, 0)",
+          ? "rgba(255, 255, 255, 0.9)"
+          : "rgba(255, 255, 255, 1)",
         borderBottom: isScrolled
-          ? "1px solid rgba(188, 204, 220, 0.3)"
-          : "1px solid rgba(188, 204, 220, 0)",
+          ? "1px solid rgba(188, 204, 220, 0.5)"
+          : "1px solid rgba(188, 204, 220, 0.2)",
         backdropFilter: isScrolled ? "blur(12px)" : "blur(0px)",
         WebkitBackdropFilter: isScrolled ? "blur(12px)" : "blur(0px)",
-        boxShadow: isScrolled ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" : "none",
+        boxShadow: isScrolled
+          ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+          : "0 2px 8px rgba(0, 0, 0, 0.05)",
         borderRadius: isScrolled ? "50px" : "0",
         margin: isScrolled ? "0 10px" : "0",
         transform: isScrolled ? "translateY(10px)" : "translateY(0)",
@@ -185,9 +179,18 @@ export default function Navbar({
 
           {/* Right side - Desktop menu */}
           <div className="hidden md:flex items-center gap-6">
-            {/* Categories Link */}
-
-            {/* Create Post Icon */}
+            {/* GitHub Icon - Desktop only */}
+            <a
+              href="https://github.com/armannhansda/Blog-Platform-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full transition transform hover:scale-110"
+              aria-label="Visit GitHub repository"
+              title="Visit GitHub repository"
+              style={{ color: "#1F3A51" }}
+            >
+              <Github className="w-5 h-5" />
+            </a>
 
             {/* Dark Mode Toggle */}
             <button
@@ -337,15 +340,16 @@ export default function Navbar({
 
           {/* Mobile menu button & quick icons */}
           <div className="md:hidden flex items-center gap-3">
-            {/* Mobile Create Post Icon */}
-            <Link
-              href="/create-post"
-              className="p-2 rounded-full transition transform hover:scale-110 shadow-md"
-              title="Create new post"
-              style={{ color: "#D9EAFD", backgroundColor: "#F8FAFC" }}
+            {/* Mobile Search Icon */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 rounded-full transition transform hover:scale-110"
+              aria-label="Open search"
+              title="Search posts"
+              style={{ color: "#1F3A51" }}
             >
-              <PenTool className="w-5 h-5" />
-            </Link>
+              <Search className="w-5 h-5" />
+            </button>
 
             {/* Mobile Dark Mode Toggle */}
             <button
@@ -367,7 +371,7 @@ export default function Navbar({
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-full transition transform hover:scale-110"
               aria-label="Toggle mobile menu"
-              style={{ color: "#D9EAFD" }}
+              style={{ color: "#1F3A51" }}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -424,35 +428,110 @@ export default function Navbar({
 
               {isLoggedIn && user ? (
                 <>
+                  {/* Mobile User Profile Dropdown */}
                   <div
-                    className="border-t pt-3 mt-2"
-                    style={{ borderColor: "#BCCCDC" }}
+                    className="border-t pt-3 mt-2 rounded-xl overflow-hidden"
+                    style={{
+                      borderColor: "#BCCCDC",
+                      backgroundColor: "#F8FAFC",
+                    }}
                   >
-                    <p
-                      className="text-sm font-semibold mb-3"
-                      style={{ color: "#1F3A51" }}
+                    {/* User Info Section */}
+                    <div
+                      className="px-4 py-3 border-b mb-2"
+                      style={{
+                        backgroundColor: "rgba(248, 250, 252, 0.9)",
+                        borderColor: "#E8F0F8",
+                      }}
                     >
-                      {user.name}
-                    </p>
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white flex-shrink-0"
+                          style={{ backgroundColor: "#3B82F6" }}
+                        >
+                          {user.name?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className="text-sm font-bold truncate"
+                            style={{ color: "#1F3A51" }}
+                          >
+                            {user.name}
+                          </p>
+                          <p
+                            className="text-xs truncate"
+                            style={{ color: "#5A6B78" }}
+                          >
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Profile Link */}
                     <Link
                       href="/profile"
-                      className="flex font-semibold transition text-sm py-2.5 px-3 items-center gap-2 hover:opacity-80 transform hover:scale-105 rounded-lg"
+                      className="flex font-semibold transition text-sm py-3 px-4 items-center gap-3 rounded-lg mx-2 mb-1"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      style={{ color: "#1F3A51" }}
+                      style={{
+                        color: "#1F3A51",
+                        backgroundColor: "transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = "#F0F6FF";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                      }}
                     >
-                      <User className="w-4 h-4" />
-                      View Profile
+                      <div
+                        className="p-2 rounded-lg"
+                        style={{ backgroundColor: "#D9EAFD" }}
+                      >
+                        <User
+                          className="w-4 h-4"
+                          style={{ color: "#3B82F6" }}
+                        />
+                      </div>
+                      <span>My Profile</span>
                     </Link>
+
+                    {/* Divider */}
+                    <hr
+                      style={{
+                        borderColor: "#E8F0F8",
+                        margin: "6px 8px",
+                      }}
+                    />
+
+                    {/* Logout Button */}
                     <button
                       onClick={() => {
                         handleLogout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full text-left font-semibold transition text-sm py-2.5 flex items-center gap-2 rounded-lg px-3 transform hover:scale-105"
-                      style={{ color: "#FFFFFF", backgroundColor: "#9AA6B2" }}
+                      className="w-full text-left font-semibold transition text-sm py-3 px-4 flex items-center gap-3 rounded-lg mx-2 mb-1"
+                      style={{
+                        color: "#EF4444",
+                        backgroundColor: "transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = "#FEE2E2";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                      }}
                     >
-                      <LogOut className="w-4 h-4" />
-                      Logout
+                      <div
+                        className="p-2 rounded-lg"
+                        style={{ backgroundColor: "#FECACA" }}
+                      >
+                        <LogOut
+                          className="w-4 h-4"
+                          style={{ color: "#DC2626" }}
+                        />
+                      </div>
+                      <span>Logout</span>
                     </button>
                   </div>
                 </>
