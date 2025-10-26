@@ -59,6 +59,7 @@ export default function Navbar({
   const [user, setUser] = useState<UserInfo | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   // Use the prop if provided, otherwise use internal state
   const currentSearchQuery =
@@ -72,13 +73,18 @@ export default function Navbar({
     }
   };
 
-  // Handle scroll event to add blur effect
+  // Handle scroll event to add blur effect and close dropdown
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
+
+      // Close dropdown if scrolling and it's open
+      setIsDropdownOpen((prev) => (prev ? false : prev));
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -342,7 +348,7 @@ export default function Navbar({
           <div className="md:hidden flex items-center gap-3">
             {/* Mobile Search Icon */}
             <button
-              onClick={() => setIsMobileMenuOpen(true)}
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
               className="p-2 rounded-full transition transform hover:scale-110"
               aria-label="Open search"
               title="Search posts"
@@ -382,50 +388,44 @@ export default function Navbar({
           </div>
         </div>
 
+        {/* Mobile Search Bar - Shows only when search icon clicked */}
+        {isMobileSearchOpen && (
+          <div
+            className="md:hidden mt-4 pb-4 border-t pt-4 animate-in fade-in duration-200"
+            style={{ borderColor: "#BCCCDC" }}
+          >
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search posts..."
+                value={currentSearchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-full border focus:outline-none focus:ring-2 focus:border-transparent text-sm"
+                style={
+                  {
+                    borderColor: "#BCCCDC",
+                    backgroundColor: "#F8FAFC",
+                    color: "#1F3A51",
+                    "--tw-ring-color": "#D9EAFD",
+                  } as React.CSSProperties
+                }
+                autoFocus
+              />
+              <Search
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                style={{ color: "#9AA6B2" }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div
-            className="md:hidden mt-4 pb-4 border-t pt-4"
+            className="md:hidden mt-4 pb-4 border-t pt-4 animate-in fade-in duration-200"
             style={{ borderColor: "#BCCCDC" }}
           >
-            {/* Mobile Search Bar */}
-            {showSearch && (
-              <div className="mb-4">
-                <div className="relative w-full">
-                  <input
-                    type="text"
-                    placeholder="Search......"
-                    value={currentSearchQuery}
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-full border focus:outline-none focus:ring-2 focus:border-transparent text-sm"
-                    style={
-                      {
-                        borderColor: "#BCCCDC",
-                        backgroundColor: "#F8FAFC",
-                        color: "#1F3A51",
-                        "--tw-ring-color": "#D9EAFD",
-                      } as React.CSSProperties
-                    }
-                  />
-                  <Search
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                    style={{ color: "#9AA6B2" }}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Mobile Auth Links */}
             <div className="flex flex-col gap-3">
-              <Link
-                href="/categories"
-                className="font-semibold transition text-sm py-2.5 px-3 rounded-lg transform hover:scale-105 inline-block"
-                onClick={() => setIsMobileMenuOpen(false)}
-                style={{ color: "#1F3A51" }}
-              >
-                Categories
-              </Link>
-
               {isLoggedIn && user ? (
                 <>
                   {/* Mobile User Profile Dropdown */}
@@ -446,7 +446,7 @@ export default function Navbar({
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white flex-shrink-0"
+                          className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shrink-0"
                           style={{ backgroundColor: "#3B82F6" }}
                         >
                           {user.name?.charAt(0).toUpperCase()}
