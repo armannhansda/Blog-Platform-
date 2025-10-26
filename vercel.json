@@ -4,9 +4,7 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "DATABASE_URL": {
-      "description": "postgresql://neondb_owner:npg_yXs4LQO0wSxv@ep-holy-scene-a1kveghi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-      "required": true
+    "DATABASE_URL": "postgresql://neondb_owner:npg_yXs4LQO0wSxv@ep-holy-scene-a1kveghi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
     },
     "JWT_SECRET": {
       "description": "5e0e8cfbf1e1c6a3d85a5f7daa184ee9d4ba2c5a20663c1ea813be0b3b7ab720",
