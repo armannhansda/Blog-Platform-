@@ -11,10 +11,7 @@
     "db:push": "drizzle-kit push",
     "db:migrate": "node scripts/migrate.js",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node scripts/seed.js",
-    "db:add-auth": "node scripts/add-auth-columns.js",
-    "list:categories": "node scripts/show-categories.js",
-    "list:users": "node scripts/show-users.js"
+    "db:seed": "node scripts/seed.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
