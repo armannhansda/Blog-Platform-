@@ -1,422 +1,796 @@
-# Blog Platform 🚀# Blog Platform 🚀# Blog Platform 🚀
+# Blog Platform 🚀# Blog Platform 🚀# Blog Platform 🚀# Blog Platform 🚀
 
-A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!
+A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!A modern, full-featured blogging platform built with **Next.js**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**. Share your stories and inspire the world!
 
-## Table of Contents## Table of Contents## Table of Contents
+## ✨ Features## Table of Contents## Table of Contents## Table of Contents
 
-- [Features Implemented](#features-implemented-)- [Features Implemented](#features-implemented-)- [Features](#features-)
+### 🔐 Authentication- [Features Implemented](#features-implemented-)- [Features Implemented](#features-implemented-)- [Features](#features-)
 
-- [Tech Stack](#tech-stack-)
+- User registration and login with email/password
 
-- [Setup Steps](#setup-steps)- [Tech Stack](#tech-stack-)- [Tech Stack](#tech-stack-)
+- Secure JWT token-based authentication- [Tech Stack](#tech-stack-)
 
-- [Project Workflow](#project-workflow-)
+- Tokens stored in localStorage
 
-- [Trade-offs & Decisions](#trade-offs--decisions-)- [Setup Steps](#setup-steps)- [Project Structure](#project-structure-)
+- Protected routes and user context- [Setup Steps](#setup-steps)- [Tech Stack](#tech-stack-)- [Tech Stack](#tech-stack-)
 
-- [Project Structure](#project-structure-)
+### 👤 User Management- [Project Workflow](#project-workflow-)
 
-- [API Documentation](#api-documentation-)- [Trade-offs & Decisions](#trade-offs--decisions-)- [Getting Started](#getting-started-)
+- User profiles with avatars/initials
 
-- [Database Schema](#database-schema-)
+- Profile dashboard with all user's posts- [Trade-offs & Decisions](#trade-offs--decisions-)- [Setup Steps](#setup-steps)- [Project Structure](#project-structure-)
 
-- [Authentication Flow](#authentication-flow-)- [Project Structure](#project-structure-)- [Setup Steps](#setup-steps)
+- Edit profile information
 
-- [Validation Rules](#validation-rules-)
+- User roles (admin, user)- [Project Structure](#project-structure-)
 
-- [Troubleshooting](#troubleshooting-)- [API Documentation](#api-documentation-)- [API Documentation](#api-documentation-)
+### 📝 Blog Management- [API Documentation](#api-documentation-)- [Trade-offs & Decisions](#trade-offs--decisions-)- [Getting Started](#getting-started-)
 
-- [Learning Resources](#learning-resources)
+- Create blog posts with rich markdown editor (MDEditor)
 
-- [Database Schema](#database-schema-)- [Database Schema](#database-schema-)
+- Edit and delete posts (creator only)- [Database Schema](#database-schema-)
+
+- Auto-generated SEO-friendly slugs
+
+- Optional cover images with URL validation- [Authentication Flow](#authentication-flow-)- [Project Structure](#project-structure-)- [Setup Steps](#setup-steps)
+
+- Draft and published status system
+
+- Real-time markdown preview- [Validation Rules](#validation-rules-)
+
+### 🏷️ Categories- [Troubleshooting](#troubleshooting-)- [API Documentation](#api-documentation-)- [API Documentation](#api-documentation-)
+
+- 100+ pre-seeded categories
+
+- Assign multiple categories to posts- [Learning Resources](#learning-resources)
+
+- Filter posts by category
+
+- Category-based navigation- [Database Schema](#database-schema-)- [Database Schema](#database-schema-)
+
+- Real-time category search
 
 ---
 
-- [Authentication Flow](#authentication-flow-)- [Authentication Flow](#authentication-flow-)
+### 📖 Blog Display
 
-## Features Implemented ✅
+- Home page with grid view of all posts- [Authentication Flow](#authentication-flow-)- [Authentication Flow](#authentication-flow-)
 
-- [Troubleshooting](#troubleshooting-)- [User Guide](#user-guide-)
+- Post detail page with full content
+
+- Post cards with elegant styling## Features Implemented ✅
+
+- Author information on all posts
+
+- Related posts recommendations- [Troubleshooting](#troubleshooting-)- [User Guide](#user-guide-)
+
+- Category-based filtering
 
 ### Priority 1: Core Functionality
 
-- [Learning Resources](#learning-resources)- [Validation](#validation-)
+### 🎨 User Experience
 
-- [x] **User Authentication & Profiles**
+- Responsive design (mobile, tablet, desktop)- [Learning Resources](#learning-resources)- [Validation](#validation-)
 
-  - ✅ User registration with email and password- [Troubleshooting](#troubleshooting-)
+- Smooth animations and transitions
 
-  - ✅ Secure login with JWT tokens
+- Professional color scheme (#3B82F6 primary, #1F3A51 navy)- [x] **User Authentication & Profiles**
+
+- Loading states with spinners
+
+- Error messages and validation feedback - ✅ User registration with email and password- [Troubleshooting](#troubleshooting-)
+
+- Success notifications on actions
+
+- Responsive navbar with scroll animations - ✅ Secure login with JWT tokens
+
+- Mobile-optimized dropdown menus
 
   - ✅ User profile pages with post management dashboard---- [Contributing](#contributing-)
 
-  - ✅ Author names displayed on all posts
+### ✅ Form Validation
 
-  - ✅ Profile picture/avatar support with initials- [Learning Resources](#learning-resources)
+- Client-side validation with Zod schemas - ✅ Author names displayed on all posts
 
-  - ✅ Profile page shows only user's own posts
+- Server-side validation with error messages
 
-## Features Implemented ✅
+- Field-level validation feedback - ✅ Profile picture/avatar support with initials- [Learning Resources](#learning-resources)
 
-- [x] **Post Management (CRUD)**
+- Character counters (excerpt: 150 char max)
 
-  - ✅ Create new blog posts with rich markdown editor## Features ✨
+- Required field indicators - ✅ Profile page shows only user's own posts
 
-  - ✅ Edit existing posts (only by creator)
+## 🛠️ Tech Stack## Features Implemented ✅
 
-  - ✅ Delete posts with confirmation dialog### Priority 1: Core Functionality
+### Frontend- [x] **Post Management (CRUD)**
+
+- **Next.js 15.5.6** - React framework with App Router and Turbopack
+
+- **React 19.1.0** - UI library - ✅ Create new blog posts with rich markdown editor## Features ✨
+
+- **TypeScript** - Type-safe development
+
+- **Tailwind CSS v4** - Utility-first CSS framework - ✅ Edit existing posts (only by creator)
+
+- **Lucide React** - Beautiful icon library
+
+- **@uiw/react-md-editor** - Markdown editor with preview - ✅ Delete posts with confirmation dialog### Priority 1: Core Functionality
+
+- **Zod** - Schema validation library
 
   - ✅ View complete post details
 
-  - ✅ Auto-generated SEO-friendly slugs### User Management
+### Backend
 
-  - ✅ Optional cover images with URL validation
+- **tRPC** - Type-safe RPC framework for API routes - ✅ Auto-generated SEO-friendly slugs### User Management
 
-  - ✅ Draft and published status system- [x] **User Authentication & Profiles**- 🔐 **JWT Authentication** - Sign up and login with email/password
+- **Drizzle ORM** - SQL database ORM with TypeScript support
 
-- [x] **Categories System** - ✅ User registration with email and password- 👤 **User Profiles** - Create and manage user profiles with avatars
+- **PostgreSQL** - Relational database - ✅ Optional cover images with URL validation
 
-  - ✅ Browse 100+ pre-seeded categories
+- **Node.js** - JavaScript runtime
 
-  - ✅ Assign multiple categories to posts - ✅ Secure login with JWT tokens- 📊 **Profile Dashboard** - View all posts created by the logged-in user only
+- **bcrypt** - Password hashing - ✅ Draft and published status system- [x] **User Authentication & Profiles**- 🔐 **JWT Authentication** - Sign up and login with email/password
 
-  - ✅ Filter posts by category
+### Authentication & Security- [x] **Categories System** - ✅ User registration with email and password- 👤 **User Profiles** - Create and manage user profiles with avatars
 
-  - ✅ Category-based navigation and discovery - ✅ User profile pages with post management dashboard- 🔑 **Secure Token Storage** - JWT tokens stored in localStorage
+- **JWT (JSON Web Tokens)** - Secure token-based authentication
 
-  - ✅ Real-time category search in forms
+- **bcrypt** - Password hashing with salt - ✅ Browse 100+ pre-seeded categories
 
-  - ✅ Author names displayed on all posts- ✅ **Protected Routes** - Authentication required for sensitive operations
+- **localStorage** - Client-side token storage
 
-- [x] **Blog Display & Navigation**
+- **Protected Routes** - Authentication middleware - ✅ Assign multiple categories to posts - ✅ Secure login with JWT tokens- 📊 **Profile Dashboard** - View all posts created by the logged-in user only
 
-  - ✅ Home page with grid view of all posts - ✅ Profile picture/avatar support with initials
+## 📦 Prerequisites - ✅ Filter posts by category
 
-  - ✅ Blog detail page with full post content
+- **Node.js** 18+ - ✅ Category-based navigation and discovery - ✅ User profile pages with post management dashboard- 🔑 **Secure Token Storage** - JWT tokens stored in localStorage
 
-  - ✅ Post cards with elegant styling - ✅ Profile page shows only user's own posts### Blog Management
+- **PostgreSQL** 12+
 
-  - ✅ Author information display on posts
+- **npm** or **yarn** - ✅ Real-time category search in forms
 
-  - ✅ Related posts recommendations- ✍️ **Create Posts** - Write blog posts with rich markdown editor
+## 🚀 Quick Start - ✅ Author names displayed on all posts- ✅ **Protected Routes** - Authentication required for sensitive operations
 
-  - ✅ Responsive design (mobile, tablet, desktop)
+### 1. Clone Repository- [x] **Blog Display & Navigation**
 
-- [x] **Post Management (CRUD)**- 📝 **Edit Posts** - Modify existing blog posts anytime
+```bash - ✅ Home page with grid view of all posts - ✅ Profile picture/avatar support with initials
 
-### Priority 2: Enhanced User Experience
+git clone https://github.com/armannhansda/Blog-Platform-.git
 
-- ✅ Create new blog posts with rich markdown editor- 🗑️ **Delete Posts** - Remove posts with confirmation
-
-- [x] **Rich Text Editing**
-
-  - ✅ Markdown support with live preview - ✅ Edit existing posts (only by creator)- 🏷️ **Categories** - Organize posts with multiple categories
-
-  - ✅ MDEditor integration with formatting toolbar
-
-  - ✅ Content syntax highlighting - ✅ Delete posts with confirmation dialog- 🖼️ **Cover Images** - Add cover images from URLs (optional)
-
-  - ✅ Easy content formatting for users
-
-  - ✅ View complete post details- 📄 **Pagination & Filtering** - Browse posts by category
-
-- [x] **Advanced Filtering & Search**
-
-  - ✅ Filter posts by category with real-time search - ✅ Auto-generated SEO-friendly slugs- 👀 **Draft System** - Save posts as unpublished drafts
-
-  - ✅ Browse all posts organized by category
-
-  - ✅ Category slug-based URL routing - ✅ Optional cover images with URL validation
-
-  - ✅ Smart category recommendations
-
-  - ✅ Draft and published status system### Content Display
-
-- [x] **User Experience Enhancements**
-
-  - ✅ Loading states with spinners- 🏠 **Home Page** - Grid view of all published blog posts
-
-  - ✅ Error messages and validation feedback
-
-  - ✅ Success notifications on actions- [x] **Categories System**- 📖 **Blog Detail Page** - Read full blog posts with author information
-
-  - ✅ Responsive navigation bar
-
-  - ✅ Consistent color scheme and typography - ✅ Browse 100+ pre-seeded categories- 🔗 **Related Posts** - Discover similar posts in the same category
-
-  - ✅ Smooth transitions and hover effects
-
-  - ✅ Assign multiple categories to posts- 🎨 **Responsive Design** - Mobile-friendly interface
-
-- [x] **Form Validation**
-
-  - ✅ Client-side validation with detailed errors - ✅ Filter posts by category- 👁️ **Footer Management** - Hidden from auth pages (login/signup)
-
-  - ✅ Server-side validation with Zod schemas
-
-  - ✅ Field-level validation feedback - ✅ Category-based navigation and discovery
-
-  - ✅ Character limits with visual indicators
-
-  - ✅ Required field indicators - ✅ Real-time category search in forms## Setup Steps
-
-- [x] **Image & Content Management**- [x] **Blog Display & Navigation**### Prerequisites
-
-  - ✅ Cover image URL validation
-
-  - ✅ Optional cover images for posts - ✅ Home page with grid view of all posts- **Node.js** 18+
-
-  - ✅ Responsive image handling
-
-  - ✅ Image form with URL input - ✅ Blog detail page with full post content- **PostgreSQL** 12+
-
-### Priority 3: Polish & Optimization - ✅ Post cards with elegant styling- **npm** or **yarn**
-
-- [x] **UI/UX Polish** - ✅ Author information display on posts
-
-  - ✅ Consistent color scheme (#3B82F6 primary, #1F3A51 dark navy)
-
-  - ✅ Smooth transitions and hover effects - ✅ Related posts recommendations### 1. Clone the Repository
-
-  - ✅ Professional typography and spacing
-
-  - ✅ Rounded corners and shadows for depth - ✅ Responsive design (mobile, tablet, desktop)
-
-  - ✅ Gradient backgrounds for visual appeal
-
-`````bash
-
-- [x] **Layout & Navigation**
-
-  - ✅ Header with navigation menu### Priority 2: Enhanced User Experiencegit clone https://github.com/yourusername/blog-platform.git
-
-  - ✅ Footer with platform information
-
-  - ✅ Footer hidden on login/signup pagescd blog-platform
-
-  - ✅ Proper spacing and margins throughout
-
-  - ✅ Clean, minimalist design- [x] **Rich Text Editing**```
-
-  - ✅ Mobile-first responsive approach
-
-  - ✅ Markdown support with live preview
-
-- [x] **Author Management**
-
-  - ✅ Automatic author creation on post submission  - ✅ MDEditor integration with formatting toolbar### 2. Install Dependencies
-
-  - ✅ Author lookup by name
-
-  - ✅ User-specific post filtering on profile  - ✅ Content syntax highlighting
-
-  - ✅ Author information on all posts
-
-  - ✅ Atomic operations prevent user orphaning  - ✅ Easy content formatting for users```bash
-
-
-
-- [x] **Error Handling & Recovery**npm install
-
-  - ✅ Comprehensive error messages
-
-  - ✅ Validation error extraction and display- [x] **Advanced Filtering & Search**```
-
-  - ✅ Network error handling
-
-  - ✅ User-friendly error recovery guidance  - ✅ Filter posts by category with real-time search
-
-
-
-- [x] **Performance Optimizations**  - ✅ Browse all posts organized by category### 3. Setup Environment Variables
-
-  - ✅ Server-side post filtering by author
-
-  - ✅ Conditional tRPC queries  - ✅ Category slug-based URL routing
-
-  - ✅ Database indexing on important fields
-
-  - ✅ Responsive image handling  - ✅ Smart category recommendationsCreate a `.env` file in the root directory:
-
-  - ✅ Type-safe API calls with tRPC
-
-
-
----
-
-- [x] **User Experience Enhancements**```env
-
-## Tech Stack 🛠️
-
-  - ✅ Loading states with spinners# Database Configuration
-
-### Frontend
-
-- **Next.js 15.5.6** - React framework with App Router  - ✅ Error messages and validation feedbackDATABASE_URL=postgresql://user:password@localhost:5432/blog_platform
-
-- **React 19.1.0** - UI library
-
-- **TypeScript** - Type-safe development  - ✅ Success notifications on actions
-
-- **Tailwind CSS v4** - Utility-first CSS framework
-
-- **Lucide React** - Icon library  - ✅ Responsive navigation bar# JWT Configuration
-
-- **@uiw/react-md-editor** - Markdown editor for blog content
-
-- **Zod** - Runtime schema validation  - ✅ Consistent color scheme and typographyJWT_SECRET=your_super_secret_jwt_key_here
-
-
-
-### Backend  - ✅ Smooth transitions and hover effects
-
-- **tRPC** - Type-safe RPC framework (replaces REST API)
-
-- **Drizzle ORM** - SQL database ORM with TypeScript support# Optional: Cloudinary (for future image uploads)
-
-- **PostgreSQL** - Relational database
-
-- **Node.js** - JavaScript runtime- [x] **Form Validation**NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-
-- **bcrypt** - Password hashing library
-
-  - ✅ Client-side validation with detailed errors```
-
-### Authentication & Security
-
-- **JWT (JSON Web Tokens)** - Secure token-based authentication  - ✅ Server-side validation with Zod schemas
-
-- **bcrypt** - Password hashing with salt
-
-- **localStorage** - Client-side token storage  - ✅ Field-level validation feedback### 4. Setup Database
-
-- **Protected Routes** - Authentication middleware
-
-  - ✅ Character limits with visual indicators
-
-### Development Tools
-
-- **ESLint** - Code linting  - ✅ Required field indicators```bash
-
-- **PostCSS** - CSS processing
-
-- **TypeScript** - Static type checking# Push schema changes to your database
-
-
-
----- [x] **Image & Content Management**npm run db:push
-
-
-
-## Setup Steps  - ✅ Cover image URL validation
-
-
-
-### Prerequisites  - ✅ Optional cover images for posts# Seed database with sample data (optional)
-
-- **Node.js** 18+
-
-- **PostgreSQL** 12+  - ✅ Responsive image handlingnpm run db:seed
-
-- **npm** or **yarn**
-
-  - ✅ Image form with URL input```
-
-### 1. Clone Repository
-
-
-
-```bash
-
-git clone https://github.com/yourusername/blog-platform.git### Priority 3: Polish & Optimization### 5. Run Development Server
-
-cd blog-platform
+cd blog-platform  - ✅ Blog detail page with full post content
 
 ```
 
+- ✅ Post cards with elegant styling - ✅ Profile page shows only user's own posts### Blog Management
 
+### 2. Install Dependencies
 
-### 2. Install Dependencies- [x] **UI/UX Polish**```bash
+- ✅ Author information display on posts
 
+```bash
 
+npm install  - ✅ Related posts recommendations- ✍️ **Create Posts** - Write blog posts with rich markdown editor
 
-```bash  - ✅ Consistent color scheme (#3B82F6 primary, #1F3A51 dark navy)npm run dev
+```
 
-npm install
+- ✅ Responsive design (mobile, tablet, desktop)
 
-```  - ✅ Smooth transitions and hover effects```
+### 3. Setup Environment Variables
 
+- [x] **Post Management (CRUD)**- 📝 **Edit Posts** - Modify existing blog posts anytime
 
+Create a `.env` file in the root directory:
 
-### 3. Setup Environment Variables  - ✅ Professional typography and spacing
+### Priority 2: Enhanced User Experience
 
+``````env
 
+# Database Configuration- ✅ Create new blog posts with rich markdown editor- 🗑️ **Delete Posts** - Remove posts with confirmation
 
-Create `.env` file in root directory:  - ✅ Rounded corners and shadows for depthOpen [http://localhost:3000](http://localhost:3000) in your browser.
+DATABASE_URL=postgresql://user:password@localhost:5432/blog_platform
 
+- [x] **Rich Text Editing**
 
+# JWT Configuration
 
-```env  - ✅ Gradient backgrounds for visual appeal
-
-# Database
-
-DATABASE_URL=postgresql://user:password@localhost:5432/blog_platform### Available Scripts
-
-
-
-# JWT Secret (for token generation)- [x] **Layout & Navigation**
-
-JWT_SECRET=your_super_secret_jwt_key_here_min_32_chars
-
-```  - ✅ Header with navigation menu```bash
-
-
-
-### 4. Initialize Database  - ✅ Footer with platform information# Development
+JWT_SECRET=your_super_secret_jwt_key_here_min_32_chars  - ✅ Markdown support with live preview - ✅ Edit existing posts (only by creator)- 🏷️ **Categories** - Organize posts with multiple categories
 
 
 
-```bash  - ✅ Footer hidden on login/signup pagesnpm run dev              # Start development server with hot reload
+# Optional: Cloudinary (for future image uploads)  - ✅ MDEditor integration with formatting toolbar
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+```  - ✅ Content syntax highlighting - ✅ Delete posts with confirmation dialog- 🖼️ **Cover Images** - Add cover images from URLs (optional)
+
+
+
+### 4. Initialize Database  - ✅ Easy content formatting for users
+
+
+
+```bash  - ✅ View complete post details- 📄 **Pagination & Filtering** - Browse posts by category
 
 # Push schema to database
 
-npm run db:push  - ✅ Proper spacing and margins throughout
+npm run db:push- [x] **Advanced Filtering & Search**
 
 
 
-# Seed with sample data (optional)  - ✅ Clean, minimalist design# Database
+# Seed database with sample data (optional)  - ✅ Filter posts by category with real-time search - ✅ Auto-generated SEO-friendly slugs- 👀 **Draft System** - Save posts as unpublished drafts
 
 npm run db:seed
 
-```  - ✅ Mobile-first responsive approachnpm run db:push        # Push schema changes to database
+```  - ✅ Browse all posts organized by category
 
 
 
-### 5. Run Development Servernpm run db:seed        # Seed database with sample data
+### 5. Run Development Server  - ✅ Category slug-based URL routing - ✅ Optional cover images with URL validation
 
 
 
-```bash- [x] **Author Management**npm run db:studio      # Open Drizzle Studio for database management
+```bash  - ✅ Smart category recommendations
 
 npm run dev
 
-```  - ✅ Automatic author creation on post submission
+```  - ✅ Draft and published status system### Content Display
 
 
 
-Open [http://localhost:3000](http://localhost:3000) in browser.  - ✅ Author lookup by name# Build & Production
+Open [http://localhost:3000](http://localhost:3000) in your browser.- [x] **User Experience Enhancements**
 
 
 
-### Available Scripts  - ✅ User-specific post filtering on profilenpm run build           # Build for production
+## 📋 Available Scripts  - ✅ Loading states with spinners- 🏠 **Home Page** - Grid view of all published blog posts
 
 
 
-```bash  - ✅ Author information on all postsnpm start              # Start production server
+```bash  - ✅ Error messages and validation feedback
 
 # Development
 
+npm run dev              # Start development server with hot reload  - ✅ Success notifications on actions- [x] **Categories System**- 📖 **Blog Detail Page** - Read full blog posts with author information
+
+npm run lint            # Run ESLint
+
+  - ✅ Responsive navigation bar
+
+# Database
+
+npm run db:push         # Push schema changes to database  - ✅ Consistent color scheme and typography - ✅ Browse 100+ pre-seeded categories- 🔗 **Related Posts** - Discover similar posts in the same category
+
+npm run db:seed         # Seed database with sample data
+
+npm run db:generate     # Generate migration files  - ✅ Smooth transitions and hover effects
+
+npm run db:studio       # Open Drizzle Studio for database management
+
+  - ✅ Assign multiple categories to posts- 🎨 **Responsive Design** - Mobile-friendly interface
+
+# Production
+
+npm run build            # Build for production- [x] **Form Validation**
+
+npm start               # Start production server
+
+```  - ✅ Client-side validation with detailed errors - ✅ Filter posts by category- 👁️ **Footer Management** - Hidden from auth pages (login/signup)
+
+
+
+## 📂 Project Structure  - ✅ Server-side validation with Zod schemas
+
+
+
+```  - ✅ Field-level validation feedback - ✅ Category-based navigation and discovery
+
+src/
+
+├── app/                           # Next.js app directory  - ✅ Character limits with visual indicators
+
+│   ├── api/                       # tRPC API routes
+
+│   ├── blog/                      # Blog listing and detail pages  - ✅ Required field indicators - ✅ Real-time category search in forms## Setup Steps
+
+│   ├── categories/                # Category pages
+
+│   ├── create-post/               # Create post page- [x] **Image & Content Management**- [x] **Blog Display & Navigation**### Prerequisites
+
+│   ├── edit-post/                 # Edit post page
+
+│   ├── edit-profile/              # Edit profile page  - ✅ Cover image URL validation
+
+│   ├── login/                     # Login page
+
+│   ├── profile/                   # User profile dashboard  - ✅ Optional cover images for posts - ✅ Home page with grid view of all posts- **Node.js** 18+
+
+│   ├── signup/                    # Signup page
+
+│   ├── layout.tsx                 # Root layout  - ✅ Responsive image handling
+
+│   ├── page.tsx                   # Home page
+
+│   └── globals.css                # Global styles  - ✅ Image form with URL input - ✅ Blog detail page with full post content- **PostgreSQL** 12+
+
+│
+
+├── components/                    # React components### Priority 3: Polish & Optimization - ✅ Post cards with elegant styling- **npm** or **yarn**
+
+│   ├── Navbar.tsx                 # Navigation component
+
+│   ├── Footer.tsx                 # Footer component- [x] **UI/UX Polish** - ✅ Author information display on posts
+
+│   ├── BlogCard.tsx               # Post card component
+
+│   ├── FooterWrapper.tsx          # Conditional footer wrapper  - ✅ Consistent color scheme (#3B82F6 primary, #1F3A51 dark navy)
+
+│   └── layout/                    # Layout components
+
+│  - ✅ Smooth transitions and hover effects - ✅ Related posts recommendations### 1. Clone the Repository
+
+├── lib/                           # Utility functions and configurations
+
+│   ├── db/                        # Database setup  - ✅ Professional typography and spacing
+
+│   │   ├── schema.ts              # Drizzle ORM schema
+
+│   │   └── index.ts               # Database client  - ✅ Rounded corners and shadows for depth - ✅ Responsive design (mobile, tablet, desktop)
+
+│   ├── validation/                # Validation schemas
+
+│   │   ├── posts.ts               # Post schemas  - ✅ Gradient backgrounds for visual appeal
+
+│   │   ├── auth.ts                # Auth schemas
+
+│   │   └── categories.ts          # Category schemas`````bash
+
+│   ├── errors.ts                  # Error utilities
+
+│   ├── theme/                     # Theme provider- [x] **Layout & Navigation**
+
+│   ├── trpc/                      # tRPC client configuration
+
+│   └── utils/                     # Helper functions  - ✅ Header with navigation menu### Priority 2: Enhanced User Experiencegit clone https://github.com/yourusername/blog-platform.git
+
+│
+
+├── server/                        # Server-side code  - ✅ Footer with platform information
+
+│   ├── trpc/
+
+│   │   ├── routers/               # tRPC route handlers  - ✅ Footer hidden on login/signup pagescd blog-platform
+
+│   │   │   ├── auth.ts            # Authentication endpoints
+
+│   │   │   ├── posts.ts           # Post endpoints  - ✅ Proper spacing and margins throughout
+
+│   │   │   ├── categories.ts      # Category endpoints
+
+│   │   │   └── users.ts           # User endpoints  - ✅ Clean, minimalist design- [x] **Rich Text Editing**```
+
+│   │   ├── middlewares/           # tRPC middleware
+
+│   │   │   ├── validation.ts      # Input validation  - ✅ Mobile-first responsive approach
+
+│   │   │   └── logger.ts          # Request logging
+
+│   │   ├── trpc.ts                # tRPC initialization  - ✅ Markdown support with live preview
+
+│   │   ├── context.ts             # tRPC context (user, db)
+
+│   │   └── index.ts               # Router export- [x] **Author Management**
+
+│   └── context.ts                 # Request context
+
+│  - ✅ Automatic author creation on post submission  - ✅ MDEditor integration with formatting toolbar### 2. Install Dependencies
+
+├── scripts/                       # Utility scripts
+
+│   ├── migrate.js                 # Database migration script  - ✅ Author lookup by name
+
+│   └── seed.js                    # Database seeding script
+
+│  - ✅ User-specific post filtering on profile  - ✅ Content syntax highlighting
+
+└── types/                         # TypeScript type definitions
+
+    └── index.ts                   # Global types  - ✅ Author information on all posts
+
+``````
+
+- ✅ Atomic operations prevent user orphaning - ✅ Easy content formatting for users```bash
+
+## 🔐 Authentication Flow
+
+### User Signup
+
+1. User navigates to `/signup`- [x] **Error Handling & Recovery**npm install
+
+2. Enters email, password, and name
+
+3. Frontend validates input with Zod schemas - ✅ Comprehensive error messages
+
+4. Request sent to `tRPC.auth.signup` mutation
+
+5. Server hashes password with bcrypt - ✅ Validation error extraction and display- [x] **Advanced Filtering & Search**```
+
+6. JWT token generated and returned
+
+7. Token stored in localStorage - ✅ Network error handling
+
+8. Redirects to `/profile`
+
+- ✅ User-friendly error recovery guidance - ✅ Filter posts by category with real-time search
+
+### User Login
+
+1. User navigates to `/login`
+
+2. Enters email and password
+
+3. Server finds user and verifies password- [x] **Performance Optimizations** - ✅ Browse all posts organized by category### 3. Setup Environment Variables
+
+4. JWT token generated if valid
+
+5. Token stored in localStorage - ✅ Server-side post filtering by author
+
+6. Redirects to `/profile`
+
+- ✅ Conditional tRPC queries - ✅ Category slug-based URL routing
+
+### Protected Routes
+
+- Token sent in every tRPC request header - ✅ Database indexing on important fields
+
+- Server validates token signature
+
+- User context extracted and available in procedures - ✅ Responsive image handling - ✅ Smart category recommendationsCreate a `.env` file in the root directory:
+
+- Unauthorized requests return 403 Forbidden
+
+  - ✅ Type-safe API calls with tRPC
+
+## 📊 Database Schema
+
+### Users Table
+
+````sql---
+
+- id (int) - Primary key
+
+- name (string) - Display name- [x] **User Experience Enhancements**```env
+
+- email (string, UNIQUE) - Email address
+
+- password (string) - Hashed with bcrypt## Tech Stack 🛠️
+
+- bio (string, nullable) - User biography
+
+- profileImage (string, nullable) - Avatar URL  - ✅ Loading states with spinners# Database Configuration
+
+- role (enum: 'user'|'admin') - User role
+
+- createdAt (timestamp) - Account creation### Frontend
+
+````
+
+- **Next.js 15.5.6** - React framework with App Router - ✅ Error messages and validation feedbackDATABASE_URL=postgresql://user:password@localhost:5432/blog_platform
+
+### Posts Table
+
+```sql- **React 19.1.0** - UI library
+
+- id (int) - Primary key
+
+- title (string) - Post title- **TypeScript** - Type-safe development  - ✅ Success notifications on actions
+
+- slug (string, UNIQUE) - URL slug
+
+- content (text) - Markdown content- **Tailwind CSS v4** - Utility-first CSS framework
+
+- excerpt (string) - Summary (1-200 chars)
+
+- coverImage (string, nullable) - Image URL- **Lucide React** - Icon library  - ✅ Responsive navigation bar# JWT Configuration
+
+- published (boolean) - Status
+
+- authorId (int, FK) - Author reference- **@uiw/react-md-editor** - Markdown editor for blog content
+
+- createdAt (timestamp) - Created
+
+- updatedAt (timestamp) - Last modified- **Zod** - Runtime schema validation  - ✅ Consistent color scheme and typographyJWT_SECRET=your_super_secret_jwt_key_here
+
+```
+
+### Categories Table
+
+```sql### Backend  - ✅ Smooth transitions and hover effects
+
+- id (int) - Primary key
+
+- name (string, UNIQUE) - Category name- **tRPC** - Type-safe RPC framework (replaces REST API)
+
+- slug (string, UNIQUE) - URL slug
+
+- description (string, nullable) - Description- **Drizzle ORM** - SQL database ORM with TypeScript support# Optional: Cloudinary (for future image uploads)
+
+```
+
+- **PostgreSQL** - Relational database
+
+### PostsToCategories Table (Many-to-Many)
+
+```sql- **Node.js** - JavaScript runtime- [x] **Form Validation**NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+- postId (int, FK) - Post reference
+
+- categoryId (int, FK) - Category reference- **bcrypt** - Password hashing library
+
+```
+
+- ✅ Client-side validation with detailed errors```
+
+## 🔌 API Routes (tRPC)
+
+### Authentication & Security
+
+### Authentication
+
+- `auth.signup` - Register new user- **JWT (JSON Web Tokens)** - Secure token-based authentication - ✅ Server-side validation with Zod schemas
+
+- `auth.login` - Login with email/password
+
+- **bcrypt** - Password hashing with salt
+
+### Posts
+
+- `posts.list` - Get all published posts- **localStorage** - Client-side token storage - ✅ Field-level validation feedback### 4. Setup Database
+
+- `posts.listByAuthor` - Get posts by author
+
+- `posts.getById` - Get post by ID- **Protected Routes** - Authentication middleware
+
+- `posts.getBySlug` - Get post by slug
+
+- `posts.create` - Create new post - ✅ Character limits with visual indicators
+
+- `posts.update` - Update post (creator only)
+
+- `posts.delete` - Delete post (creator only)### Development Tools
+
+### Categories- **ESLint** - Code linting - ✅ Required field indicators```bash
+
+- `categories.list` - Get all categories
+
+- `categories.getBySlug` - Get category by slug- **PostCSS** - CSS processing
+
+- `categories.filterByCategory` - Get posts in category
+
+- **TypeScript** - Static type checking# Push schema changes to your database
+
+### Users
+
+- `users.createOrGetAuthor` - Create/get author
+
+- `users.getProfile` - Get current user
+
+- `users.updateProfile` - Update user info---- [x] **Image & Content Management**npm run db:push
+
+## ✅ Validation Rules
+
+### Post Validation## Setup Steps - ✅ Cover image URL validation
+
+- **Title**: 3-100 chars, required
+
+- **Slug**: 3-100 chars, lowercase, hyphens/numbers only, unique, required
+
+- **Excerpt**: 1-200 chars, required
+
+- **Content**: Min 10 chars, required### Prerequisites - ✅ Optional cover images for posts# Seed database with sample data (optional)
+
+- **Cover Image**: Valid URL (optional)
+
+- **Author ID**: Positive integer, required- **Node.js** 18+
+
+- **Categories**: Min 1 category, required
+
+- **PostgreSQL** 12+ - ✅ Responsive image handlingnpm run db:seed
+
+### User Validation
+
+- **Name**: Non-empty string, required- **npm** or **yarn**
+
+- **Email**: Valid email format, unique, required
+
+- **Password**: Non-empty string, required - ✅ Image form with URL input```
+
+## 🧪 Test Accounts### 1. Clone Repository
+
+After seeding the database, use these credentials:
+
+``````bash
+
+Email: theodore@example.com
+
+Password: (check seed.js for default password)git clone https://github.com/yourusername/blog-platform.git### Priority 3: Polish & Optimization### 5. Run Development Server
+
+```
+
+cd blog-platform
+
+## 🐛 Troubleshooting
+
+```
+
+### Database Connection Error
+
+```
+
+Error: connect ECONNREFUSED 127.0.0.1:5432
+
+```### 2. Install Dependencies- [x] **UI/UX Polish**```bash
+
+**Solution:**
+
+1. Start PostgreSQL
+
+2. Check `DATABASE_URL` in `.env`
+
+3. Verify PostgreSQL is running```bash  - ✅ Consistent color scheme (#3B82F6 primary, #1F3A51 dark navy)npm run dev
+
+
+
+### JWT Token Issuesnpm install
+
+```
+
+Error: Invalid or expired token```  - ✅ Smooth transitions and hover effects```
+
+```
+
+**Solution:**
+
+1. Clear localStorage and cache
+
+2. Login again### 3. Setup Environment Variables  - ✅ Professional typography and spacing
+
+3. Check `JWT_SECRET` is set in `.env`
+
+
+
+### Post Creation Fails
+
+```Create `.env` file in root directory:  - ✅ Rounded corners and shadows for depthOpen [http://localhost:3000](http://localhost:3000) in your browser.
+
+Error: Validation failed
+
+```
+
+**Solution:**
+
+1. Slug must be lowercase with hyphens only```env  - ✅ Gradient backgrounds for visual appeal
+
+2. All required fields must be filled
+
+3. Select at least one category# Database
+
+4. Verify cover image URL is valid
+
+DATABASE_URL=postgresql://user:password@localhost:5432/blog_platform### Available Scripts
+
+## 📚 Learning Resources
+
+
+
+- [Next.js Documentation](https://nextjs.org/docs) - React framework with App Router
+
+- [tRPC Documentation](https://trpc.io/docs) - Type-safe API development# JWT Secret (for token generation)- [x] **Layout & Navigation**
+
+- [Drizzle ORM](https://orm.drizzle.team/docs) - Database ORM with TypeScript
+
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/) - DatabaseJWT_SECRET=your_super_secret_jwt_key_here_min_32_chars
+
+- [Tailwind CSS](https://tailwindcss.com/docs) - CSS framework
+
+- [TypeScript](https://www.typescriptlang.org/docs/) - Type-safe JavaScript```  - ✅ Header with navigation menu```bash
+
+- [JWT.io](https://jwt.io/) - JWT authentication
+
+
+
+## 🚀 Deployment
+
+### 4. Initialize Database  - ✅ Footer with platform information# Development
+
+### Deploy to Vercel
+
+
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new).
+
+```bash  - ✅ Footer hidden on login/signup pagesnpm run dev              # Start development server with hot reload
+
+1. Push your code to GitHub
+
+2. Connect your repository to Vercel# Push schema to database
+
+3. Add environment variables in Vercel dashboard
+
+4. Deploy with one clicknpm run db:push  - ✅ Proper spacing and margins throughout
+
+
+
+See [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for details.
+
+
+
+## 🗺️ Future Roadmap# Seed with sample data (optional)  - ✅ Clean, minimalist design# Database
+
+
+
+- [ ] Comments system on postsnpm run db:seed
+
+- [ ] Likes and bookmarks
+
+- [ ] Social sharing```  - ✅ Mobile-first responsive approachnpm run db:push        # Push schema changes to database
+
+- [ ] Email notifications
+
+- [ ] Full-text search
+
+- [ ] User followers
+
+- [ ] Post scheduling### 5. Run Development Servernpm run db:seed        # Seed database with sample data
+
+- [ ] Analytics dashboard
+
+- [ ] Multi-language support
+
+- [ ] Dark mode toggle
+
+- [ ] Export posts to PDF```bash- [x] **Author Management**npm run db:studio      # Open Drizzle Studio for database management
+
+- [ ] Advanced SEO optimization
+
+npm run dev
+
+## 📄 License
+
+```  - ✅ Automatic author creation on post submission
+
+MIT License - see LICENSE file for details
+
+
+
+## 💬 Support
+
+Open [http://localhost:3000](http://localhost:3000) in browser.  - ✅ Author lookup by name# Build & Production
+
+- **Issues**: Open on [GitHub](https://github.com/armannhansda/Blog-Platform-)
+
+- **Questions**: Start a discussion on GitHub
+
+- **Email**: contact@blogplatform.com
+
+### Available Scripts  - ✅ User-specific post filtering on profilenpm run build           # Build for production
+
+---
+
+
+
+<div align="center">
+
+```bash  - ✅ Author information on all postsnpm start              # Start production server
+
+**Made with ❤️ by the Blog Platform Team**
+
+# Development
+
+Give us a ⭐ if you like this project!
+
 npm run dev              # Start dev server with hot reload  - ✅ Atomic operations prevent user orphaning
+
+</div>
 
 
 
@@ -1796,3 +2170,4 @@ MIT License - see LICENSE file
 Give us a ⭐ if you like this project!
 
 </div>
+``````
